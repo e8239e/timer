@@ -1,0 +1,6 @@
+/.direnv/
+.ccls-cache/
+events.json
+*.o
+timer
+parse_duration/test

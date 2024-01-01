@@ -1,0 +1,14 @@
+= Timer
+:reproducible:
+
+Simple C++ timer
+
+Accepts the duration in the format `<number>[d|h|m|s]`
+(example: 1d2h3m4s -> 1 day (24 hours) 2 hours 3 minutes 4 seconds) as the first (and only) argument,
+outputs the remaining time to stderr every second, starts playing the sound file
+(supported formats: vorbis (ogg), flac, wav) specified in the configuration file
+(ini format) when the remaining time ends.
+
+== Compilation
+
+There is Nix shell, you can enter repo dir, type `nix develop` or `nix-shell` and then `make <make target>`
