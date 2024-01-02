@@ -14,7 +14,8 @@ Test(input_check, must_fail)
 		eq(parse_duration_valid_input("j"), false),
 		eq(parse_duration_valid_input("s"), false),
 		eq(parse_duration_valid_input("slevj"), false),
-		eq(parse_duration_valid_input("dmh"), false)
+		eq(parse_duration_valid_input("dmh"), false),
+		eq(parse_duration_valid_input("1hm"), false)
 
 			));
 
@@ -24,7 +25,8 @@ Test(input_check, must_fail)
 		eq(i32, parse_duration("j"), -1),
 		eq(i32, parse_duration("s"), -1),
 		eq(i32, parse_duration("slevj"), -1),
-		eq(i32, parse_duration("dmh"), -1)
+		eq(i32, parse_duration("dmh"), -1),
+		eq(i32, parse_duration("1hm"), -1)
 
 			));
 }
@@ -41,8 +43,7 @@ Test(input_check, must_succeed)
 		parse_duration_valid_input("1"),
 		parse_duration_valid_input("13s"),
 		parse_duration_valid_input("5d"),
-		parse_duration_valid_input("1s5d3h100m"),
-		parse_duration_valid_input("1hm")
+		parse_duration_valid_input("1s5d3h100m")
 
 			));
 
@@ -57,8 +58,7 @@ Test(input_check, must_succeed)
 		eq(i32, parse_duration("13s"), 13),
 		eq(i32, parse_duration("5d"), 5 * 3600 * 24),
 		eq(i32, parse_duration("1s5d3h100m"),
-		   1 + 5 * 3600 * 24 + 3 * 3600 + 100 * 60),
-		eq(i32, parse_duration("1hm"), 3600)
+		   1 + 5 * 3600 * 24 + 3 * 3600 + 100 * 60)
 
 			));
 }

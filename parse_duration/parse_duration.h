@@ -22,9 +22,11 @@ inline int_least32_t parse_duration__days(int x)
 
 bool parse_duration_valid_input(const char *str)
 {
+	bool not_empty = false;
 	bool num_found = false;
 	char c;
 	while ((c = *str++)) {
+		not_empty = true;
 		switch (c) {
 		case '1':
 		case '2':
@@ -42,13 +44,17 @@ bool parse_duration_valid_input(const char *str)
 		case 'm':
 		case 'h':
 		case 'd':
+			if (!num_found) {
+				goto not_valid;
+			}
+			num_found = false;
 			break;
 		default:
 			goto not_valid;
 		}
 		c = 0;
 	}
-	return num_found;
+	return not_empty;
 not_valid:
 	return false;
 }
