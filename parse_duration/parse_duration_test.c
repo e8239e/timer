@@ -69,7 +69,7 @@ Test(simple_input, plain)
 	int exp;
 	for (int i = 0; i < MAX; i += STEP) {
 		exp = i;
-		sprintf(num, "%d", i);
+		snprintf(num, BUFSIZE, "%d", i);
 		cr_expect(eq(i32, parse_duration(num), exp),
 			  "parse_duration(%s) is expected to be %d", num, exp);
 	}
@@ -81,7 +81,7 @@ Test(simple_input, with_seconds)
 	int exp;
 	for (int i = 0; i < MAX; i += STEP) {
 		exp = i;
-		sprintf(num, "%ds", i);
+		snprintf(num, BUFSIZE, "%ds", i);
 		cr_expect(eq(i32, parse_duration(num), exp),
 			  "parse_duration(%s) is expected to be %d", num, exp);
 	}
@@ -93,7 +93,7 @@ Test(simple_input, with_minutes)
 	int exp;
 	for (int i = 0; i < MAX; i += STEP) {
 		exp = i * 60;
-		sprintf(num, "%dm", i);
+		snprintf(num, BUFSIZE, "%dm", i);
 		cr_expect(eq(i32, parse_duration(num), exp),
 			  "parse_duration(%s) is expected to be %d", num, exp);
 	}
@@ -105,7 +105,7 @@ Test(simple_input, with_hours)
 	int exp;
 	for (int i = 0; i < MAX; i += STEP) {
 		exp = i * 60 * 60;
-		sprintf(num, "%dh", i);
+		snprintf(num, BUFSIZE, "%dh", i);
 		cr_expect(eq(i32, parse_duration(num), exp),
 			  "parse_duration(%s) is expected to be %d", num, exp);
 	}
@@ -118,7 +118,7 @@ Test(complex_input, minutes_with_seconds_unnamed)
 	for (int i = 0; i < MAX; i += STEP) {
 		for (int j = 0; j < MAX; j++) {
 			exp = i * 60 + j;
-			sprintf(num, "%dm%d", i, j);
+			snprintf(num, BUFSIZE, "%dm%d", i, j);
 			cr_expect(eq(i32, parse_duration(num), exp),
 				  "parse_duration(%s) is expected to be %d",
 				  num, exp);
@@ -133,7 +133,7 @@ Test(complex_input, minutes_with_seconds)
 	for (int i = 0; i < MAX; i += STEP) {
 		for (int j = 0; j < MAX; j++) {
 			exp = i * 60 + j;
-			sprintf(num, "%dm%ds", i, j);
+			snprintf(num, BUFSIZE, "%dm%ds", i, j);
 			cr_expect(eq(i32, parse_duration(num), exp),
 				  "parse_duration(%s) is expected to be %d",
 				  num, exp);
@@ -148,7 +148,7 @@ Test(complex_input, hours_with_minutes)
 	for (int i = 0; i < MAX; i += STEP) {
 		for (int j = 0; j < MAX; j++) {
 			exp = i * 60 * 60 + j * 60;
-			sprintf(num, "%dh%dm", i, j);
+			snprintf(num, BUFSIZE, "%dh%dm", i, j);
 			cr_expect(eq(i32, parse_duration(num), exp),
 				  "parse_duration(%s) is expected to be %d",
 				  num, exp);
@@ -164,7 +164,7 @@ Test(complex_input, hours_with_minutes_and_seconds_unnamed)
 		for (int j = 0; j < MAX; j++) {
 			for (int l = 0; l < MAX; l++) {
 				exp = i * 60 * 60 + j * 60 + l;
-				sprintf(num, "%dh%dm%d", i, j, l);
+				snprintf(num, BUFSIZE, "%dh%dm%d", i, j, l);
 				cr_expect(
 					eq(parse_duration(num), exp),
 					"parse_duration(%s) is expected to be %d",
@@ -182,7 +182,7 @@ Test(complex_input, hours_with_minutes_and_seconds)
 		for (int j = 0; j < MAX; j++) {
 			for (int k = 0; k < MAX; k++) {
 				exp = i * 60 * 60 + j * 60 + k;
-				sprintf(num, "%dh%dm%ds", i, j, k);
+				snprintf(num, BUFSIZE, "%dh%dm%ds", i, j, k);
 				cr_expect(
 					parse_duration(num) == exp,
 					"parse_duration(%s) is expected to be %d",
@@ -202,8 +202,8 @@ Test(complex_input, days_with_hours_minutes_and_seconds)
 				for (int l = 0; l < MAX; l++) {
 					exp = (i * 60 * 60 * 24) +
 					      (j * 60 * 60) + (k * 60) + l;
-					sprintf(num, "%dd%dh%dm%ds", i, j, k,
-						l);
+					snprintf(num, BUFSIZE, "%dd%dh%dm%ds",
+						 i, j, k, l);
 					cr_expect(
 						parse_duration(num) == exp,
 						"parse_duration(%s) is expected to be %d",
@@ -224,7 +224,8 @@ Test(complex_input, days_with_hours_minutes_and_seconds_unnamed)
 				for (int l = 0; l < MAX; l++) {
 					exp = (i * 60 * 60 * 24) +
 					      (j * 60 * 60) + (k * 60) + l;
-					sprintf(num, "%dd%dh%dm%d", i, j, k, l);
+					snprintf(num, BUFSIZE, "%dd%dh%dm%d", i,
+						 j, k, l);
 					cr_expect(
 						parse_duration(num) == exp,
 						"parse_duration(%s) is expected to be %d",
