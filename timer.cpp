@@ -29,9 +29,9 @@ std::string remaining(const int_least32_t dur)
 {
 	auto tmp = dur;
 	auto r_hours = tmp / 3600;
-	tmp -= parse_duration__hours(tmp / 3600);
+	tmp -= parse_duration__hours(r_hours);
 	auto r_minutes = tmp / 60;
-	tmp -= parse_duration__minutes(tmp / 60);
+	tmp -= parse_duration__minutes(r_minutes);
 	auto r_seconds = tmp;
 	return std::format("{:0>2}h {:0>2}m {:0>2}s", r_hours, r_minutes,
 			   r_seconds);
