@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 	const int_fast64_t duration = parse_duration(argv[1]);
 	int_fast64_t remain = duration;
 
-    const auto second = std::chrono::duration(std::chrono::seconds(1));
+    const auto second = std::chrono::seconds(1);
 	while (remain > -1) {
 		std::fflush(stderr);
 		std::cerr << remaining(remain--);
