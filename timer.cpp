@@ -3,14 +3,7 @@
 #include <iostream>
 #include <filesystem>
 #include <format>
-
-#ifdef _WIN32
-#include <Windows.h>
-#define SLEEP_SEC(x) Sleep(x * 1000)
-#else
-#include <unistd.h>
-#define SLEEP_SEC(x) sleep(x)
-#endif
+#include <thread>
 
 extern "C" {
 #include "parse_duration/parse_duration.h"
@@ -107,12 +100,13 @@ int main(int argc, char **argv)
 	const int_fast64_t duration = parse_duration(argv[1]);
 	int_fast64_t remain = duration;
 
+    const auto second = std::chrono::duration(std::chrono::seconds(1));
 	while (remain > -1) {
 		std::fflush(stderr);
 		std::cerr << remaining(remain--);
 		std::fflush(stderr);
 		if (remain >= 0) {
-			SLEEP_SEC(1);
+            std::this_thread::sleep_for(second);
 		}
 		std::cerr << "\r";
 		std::fflush(stderr);
