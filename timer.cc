@@ -5,9 +5,7 @@
 #include <format>
 #include <thread>
 
-extern "C" {
-#include "parse_duration/parse_duration.h"
-}
+#include "parse_duration/parse_duration.hh"
 
 #include <INIReader.h>
 #include <SFML/Audio.hpp>
@@ -22,9 +20,9 @@ std::string remaining(const int_least32_t dur)
 {
 	auto tmp = dur;
 	auto r_hours = tmp / 3600;
-	tmp -= parse_duration__hours(r_hours);
+	tmp -= 3600 * (r_hours);
 	auto r_minutes = tmp / 60;
-	tmp -= parse_duration__minutes(r_minutes);
+	tmp -= 60 * (r_minutes);
 	auto r_seconds = tmp;
 	return std::format("{:0>2}h {:0>2}m {:0>2}s", r_hours, r_minutes,
 			   r_seconds);
@@ -40,7 +38,7 @@ int main(int argc, char **argv)
 			    << "Arguments:" << std::endl
 			    << "\tDURATION - string with format like 1d2h3m4s which means 1 day 2 hours 3 minutes 4 seconds",
 		    1);
-	} else if (!parse_duration_valid_input(argv[1])) {
+	} else if (!duration::is_valid(argv[1])) {
 		die("Duration is not valid", 2);
 	}
 
@@ -97,7 +95,7 @@ int main(int argc, char **argv)
 	}
 	sound.setLoop(true);
 
-	const int_fast64_t duration = parse_duration(argv[1]);
+	const int_fast64_t duration = duration::parse(argv[1]);
 	int_fast64_t remain = duration;
 
     const auto second = std::chrono::seconds(1);

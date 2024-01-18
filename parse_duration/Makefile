@@ -1,5 +1,10 @@
-CFLAGS ?= -flto -O3 -std=c99 -pedantic -Wall -Werror -pie -pipe
+CXXFLAGS = -flto=auto -O3 -pedantic -Wall -Werror -pie -pipe -std=c++20
+LDFLAGS = -lcriterion
 
-test: parse_duration_test.c parse_duration.h
-	$(CC) $(CFLAGS) parse_duration_test.c -o test -lcriterion
-	./test
+test: parse_duration_test
+	./$^
+
+build: parse_duration_test
+
+clean:
+	rm -f *.o parse_duration_test_c parse_duration_test_cc

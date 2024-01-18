@@ -1,27 +1,14 @@
-#ifndef PARSE_DURATION_INCL
-#define PARSE_DURATION_INCL
+#ifndef PARSE_DURATION_H_INCL
+#define PARSE_DURATION_H_INCL
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
-inline int_least32_t parse_duration__minutes(int x)
+bool parse_duration_is_valid_input(const char *str)
 {
-	return 60 * x;
-}
 
-inline int_least32_t parse_duration__hours(int x)
-{
-	return x * parse_duration__minutes(60);
-}
-inline int_least32_t parse_duration__days(int x)
-{
-	return x * parse_duration__hours(24);
-}
-
-bool parse_duration_valid_input(const char *str)
-{
 	bool not_empty = false;
 	bool num_found = false;
 	char c;
@@ -61,9 +48,13 @@ not_valid:
 
 int_least32_t parse_duration(const char *str)
 {
-	if (!parse_duration_valid_input(str)) {
+	if (!parse_duration_is_valid_input(str)) {
 		return -1;
 	}
+
+#define MINUTES(x) (60 * x)
+#define HOURS(x) (x*MINUTES(60))
+#define DAYS(x) (x*HOURS(24))
 
 #define __ADD(x)                                \
 	ret += (x)*atoll(buf);                  \
@@ -92,13 +83,13 @@ int_least32_t parse_duration(const char *str)
 			__ADD(1);
 			break;
 		case 'm':
-			__ADD(parse_duration__minutes(1));
+			__ADD(MINUTES(1));
 			break;
 		case 'h':
-			__ADD(parse_duration__hours(1));
+			__ADD(HOURS(1));
 			break;
 		case 'd':
-			__ADD(parse_duration__days(1));
+			__ADD(DAYS(1));
 			break;
 		default:
 			return -1;

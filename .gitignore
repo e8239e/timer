@@ -1,6 +1,7 @@
 /.direnv/
 .ccls-cache/
+compile_commands.json
 events.json
 *.o
 timer
-parse_duration/test
+parse_duration/parse_duration_test
